@@ -20,7 +20,7 @@
             Имя должно содержать только буквы
             </template>
             <template v-else>
-            Имя обязательно для заполнения
+            Поле обязательно для заполнения
             </template>
           </div>
         </div>
@@ -42,7 +42,7 @@
             Фамилия должна содержать только буквы
             </template>
             <template v-else>
-            Фамилия обязательна для заполнения
+            Поле обязательно для заполнения
             </template>
           </div>
         </div>
@@ -76,13 +76,13 @@
             Дата рождения должна быть в формате дд.мм.гггг
             </template>
             <template v-else>
-            Фамилия обязательна для заполнения
+            Поле обязательно для заполнения
             </template>
           </div>
 
         </div>
-        <!-- Phone number  v-if="{regex: /\+7\(\d{3}\)\d{3}-\d{2}-\d{2}/}"-->
-        <div>
+        <!-- Phone number-->
+        <div class='phone'>
           <label for="phone">Номер телефона</label>
           <span>+7</span>
           <input 
@@ -96,11 +96,19 @@
             v-phone
             class="form-control"
             pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
-            required
+            @blur="$v.phone.$touch()"
             >
-            <!-- id="phone"
-            type="tel"
-            v-model="phone" -->
+            <!-- Errors for Phone number-->
+            <div class="error" v-if="$v.phone.$error">
+            <template v-if="!$v.birthdayDate.required">
+            Поле обязательно для заполнения
+            </template>
+          </div>
+        </div>
+        <div class="gender">
+          <label for="gender">Пол</label>
+          <input type="radio" name="gender" class="gender-male"> Мужской
+          <input type="radio" name="gender" class="gender-female"> Женский
         </div>
       </div>
 
@@ -141,18 +149,22 @@ export default {
     birthdayDate: {
       required,
       validDate: val => moment(val, "DD.MM.YYYY", true).isValid(),
+    },
+    phone: {
+      required
     }
   }
 }
 </script>
 
 <style lang="sass">
- #app 
+  #app 
     font-family: Avenir, Helvetica, Arial, sans-serif
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
     text-align: center
     color: #2c3e50
     margin-top: 60px
-  
+  .error
+    color: red
 </style>
