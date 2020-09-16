@@ -177,14 +177,35 @@
       </div>
       <div class="identityDocument">
         <label for="identityDocument">Документ удостоверяющий личность:</label>
-        <div class="documentTyoe">
-          <label for="documentType">Лечащий врач</label>
+        <div class="documentType">
+          <label for="documentType">Тип документа</label>
           <select v-model="selected" id="documentTyoe">
             <option value="">Паспорт</option>
             <option value="">Свидетельство о рождении</option>
             <option value="">Вод. удостоверение</option>
           </select>
         </div>
+        <div class="serialNumber">
+          <label for="serialNumber">Серия</label>
+          <input type="text">
+        </div>
+        <div class="documentNumber">
+        <label for="documentNumber">Номер</label>
+        <input type="text">
+        </div>
+        <div class="issued">
+          <label for="issued">Кем выдан</label>
+          <input 
+            type="text" 
+            id="issued"
+            @blur="$v.issued.$touch()"
+            >
+        </div>
+        <div class="error" v-if="$v.issued.$error">
+            <template v-if="!$v.issued.required">
+            Поле обязательно для заполнения
+            </template>
+          </div>
 
       </div>
     </form>
@@ -210,9 +231,13 @@ export default {
       attendingDoctor: '',
       ZIPcode: '',
       city: '',
+      issued: '',
     }
   },
   validations: {
+    issued: {
+      required
+    },
     attendingDoctor: {
       selected
     },
