@@ -2,7 +2,8 @@
   <div id="app">
 
     <form>
-      <div class="form-group">
+      <div class="personData">
+        <label for="personData"> Персональные данные</label>
         <!-- First Name -->
        <div class="firstName">
           <label for="name">Имя</label>
@@ -100,18 +101,92 @@
             >
             <!-- Errors for Phone number-->
             <div class="error" v-if="$v.phone.$error">
-            <template v-if="!$v.birthdayDate.required">
+            <template v-if="!$v.phone.required">
             Поле обязательно для заполнения
             </template>
-          </div>
+            </div>
         </div>
         <div class="gender">
           <label for="gender">Пол</label>
           <input type="radio" name="gender" class="gender-male"> Мужской
           <input type="radio" name="gender" class="gender-female"> Женский
         </div>
+        <!-- Client group selector -->
+        <div class="clientGroup">
+          <label for="clientGroup">Група клиентов</label>
+          <select v-model="selected" id="clientGroup">
+            <option value="">VIP</option>
+            <option value="">Проблемные</option>
+            <option value="">ОМС</option>
+          </select>
+        </div>
+        <!-- Attending Doctor -->
+        <div class="attendingDoctor">
+          <label for="attendingDoctor">Лечащий врач</label>
+          <select v-model="selected" id="attendingDoctor">
+            <option value="">Иванов</option>
+            <option value="">Захаров</option>
+            <option value="">Чернышева</option>
+          </select>
+        </div>
+        <!-- Sms checkbox -->
+        <div class="sms">
+          <label for="sms">Не отравлять смс</label>
+          <input type="checkbox" id="sms">
+        </div>
       </div>
+      <div class="address">
+        <label for="address">Адрес:</label>
+        <div class="ZIPcode">
+          <label for="ZIPcode">Индекс</label>
+          <input 
+            id="ZIPcode" 
+            type="text" 
+            v-model="ZIPcode"
+            placeholder="555-555"
+          >
+        </div>
+        <div class="country">
+          <label for="country">Страна</label>
+          <input type="text">
+        </div>
+        <div class="region">
+          <label for="region">Область</label>
+          <input type="text">
+        </div>
+        <div class="city">
+          <label for="ciry">Город</label>
+          <input 
+            type="text"
+            @blur="$v.city.$touch()"
+          >
+          <div class="error" v-if="$v.city.$error">
+            <template v-if="!$v.city.required">
+            Поле обязательно для заполнения
+            </template>
+          </div>
+        </div>
+        <div class="street">
+          <label for="street">Улица</label>
+          <input type="text">
+        </div>
+        <div class="houseNumber">
+          <label for="houseNumber">Дом</label>
+          <input type="text">
+        </div>
+      </div>
+      <div class="identityDocument">
+        <label for="identityDocument">Документ удостоверяющий личность:</label>
+        <div class="documentTyoe">
+          <label for="documentType">Лечащий врач</label>
+          <select v-model="selected" id="documentTyoe">
+            <option value="">Паспорт</option>
+            <option value="">Свидетельство о рождении</option>
+            <option value="">Вод. удостоверение</option>
+          </select>
+        </div>
 
+      </div>
     </form>
 
   </div>
@@ -119,7 +194,7 @@
 
 <script>
 
-import { alpha, required, numeric } from 'vuelidate/lib/validators'
+import { alpha, required, numeric, selected } from 'vuelidate/lib/validators'
 import moment from "moment";
 
 export default {
@@ -131,9 +206,22 @@ export default {
       patronymic: '',
       birthdayDate:'',
       phone:'',
+      clientGroup:'',
+      attendingDoctor: '',
+      ZIPcode: '',
+      city: '',
     }
   },
   validations: {
+    attendingDoctor: {
+      selected
+    },
+    clientGroup: {
+      selected
+    },
+    city: {
+      required,
+    },
     firstName: {
       alpha: val => /^[а-яё]*$/i.test(val),
       required
@@ -152,7 +240,7 @@ export default {
     },
     phone: {
       required
-    }
+    },
   }
 }
 </script>
