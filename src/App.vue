@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-
-    <form @submit.prevent="onSubmit">
+    
+    <form @submit.prevent="onSubmit" class="form">
+      <h1>Создание клиента</h1>
       <div class="personData">
-        <h1>Создание клиента</h1>
-        <label for="personData"> Персональные данные</label>
-        <!-- First Name -->
-       <div class="firstName">
+      <!-- First Name -->
+      <label for="personData" class="form__block"> Персональные данные</label>
+       <div class="form-group">
           <label for="name">Имя*</label>
           <input 
             id="firstName" 
@@ -15,7 +15,7 @@
             placeholder="Имя" 
             v-model="firstName" 
             @blur="$v.firstName.$touch()"
-            :class="{invalid: ($v.firstName.$dirty && !$v.firstName.required)}"
+            :class="{invalid: $v.firstName.required}"
           >
           <!-- Errors for first name -->
           <div class="error" v-if="$v.firstName.$error">
@@ -29,7 +29,7 @@
         </div>
 
         <!-- Last Name --> 
-        <div class="lastName">
+        <div class="form-group">
           <label for="lastName">Фамилия*</label>
           <input 
             id="lastName" 
@@ -51,20 +51,20 @@
         </div>
 
         <!-- Patronymic -->
-        <div class="patronymic">
+        <div class="form-group">
           <label for="lastName">Отчество</label>
           <input 
             id="patronymic" 
             type="text" 
             class="form-control" 
             placeholder="Отчество" 
-            v-model.trim="patronymic"
+            v-model="patronymic"
           >
           <div class="error" v-if="!$v.patronymic.alpha">Отчество должно содержать только буквы.</div>
         </div>
 
         <!-- Birthday Date -->
-        <div class="birthdayDate">
+        <div class="form-group">
           <label for="birthdayDate">Дата рождения*</label>
           <input 
             id="birthdayDate" 
@@ -87,22 +87,24 @@
 
         </div>
         <!-- Phone number-->
-        <div class='phone'>
+        <div class='form-group'>
           <label for="phone">Номер телефона*</label>
-          <span>+7</span>
-          <input 
-            type="tel"
-            v-model="phone"
-            name="phone"
-            id="phone"
-            placeholder="(555) 555-5555"
-            autocomplete="tel"
-            maxlength="14"
-            v-phone
-            class="form-control"
-            pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
-            @blur="$v.phone.$touch()"
-            >
+          <div class='phone'>
+            <span class="seven">+7</span>
+            <input 
+              type="tel"
+              v-model="phone"
+              name="phone"
+              id="phone"
+              placeholder="(555) 555-5555"
+              autocomplete="tel"
+              maxlength="14"
+              v-phone
+              class="form-control"
+              pattern="[(][0-9]{3}[)] [0-9]{3}-[0-9]{4}"
+              @blur="$v.phone.$touch()"
+              > 
+              </div>
             <!-- Errors for Phone number-->
             <div class="error" v-if="$v.phone.$error">
             <template v-if="!$v.phone.required">
@@ -116,7 +118,7 @@
           <input type="radio" name="gender" class="gender-female"> Женский
         </div>
         <!-- Client group selector -->
-        <div class="clientGroup">
+        <div class="form-group">
           <label for="clientGroup">Группа клиентов*</label>
           <select v-model="selectedGroup" id="clientGroup" @blur="$v.selectedGroup.$touch()">
             <option disabled value="">Выберите один из вариантов</option>
@@ -124,7 +126,6 @@
             <option>Проблемные</option>
             <option>ОМС</option>
           </select>
-          <span>Выбрано: {{selectedGroup}}</span>
           <div class="error" v-if="$v.selectedGroup.$error">
             <template v-if="!$v.selectedGroup.required">
             Поле обязательно для заполнения
@@ -132,7 +133,7 @@
           </div>
         </div>
         <!-- Attending Doctor -->
-        <div class="attendingDoctor">
+        <div class="form-group">
           <label for="attendingDoctor">Лечащий врач</label>
           <select v-model="selectedDoctor" id="attendingDoctor">
             <option disabled value="">Выберите один из вариантов</option>
@@ -140,7 +141,6 @@
             <option>Захаров</option>
             <option>Чернышева</option>
           </select>
-          <span>Выбрано: {{ selectedDoctor }}</span>
         </div>
         <!-- Sms checkbox -->
         <div class="sms">
@@ -149,26 +149,29 @@
         </div>
       </div>
       <div class="address">
-        <label for="address">Адрес:</label>
-        <div class="ZIPcode">
-          <label for="ZIPcode">Индекс</label>
-          <input 
-            id="ZIPcode" 
-            type="text"
-            v-model="ZIPcode"
-            placeholder="123456"
-            maxlength="6"
-          >
+        <label for="address" class="form__block">Адрес:</label>
+        <div class="form-group"> 
+          
+          <div class="ZIPcode">
+            <label for="ZIPcode">Индекс</label>
+            <input 
+              id="ZIPcode" 
+              type="text"
+              v-model="ZIPcode"
+              placeholder="123456"
+              maxlength="6"
+            >
+          </div>
         </div>
-        <div class="country">
+        <div class="form-group">
           <label for="country">Страна</label>
           <input type="text">
         </div>
-        <div class="region">
+        <div class="form-group">
           <label for="region">Область</label>
           <input type="text">
         </div>
-        <div class="city">
+        <div class="form-group">
           <label for="city">Город*</label>
           <input 
             id="city"
@@ -187,18 +190,18 @@
             </template>
           </div>
         </div>
-        <div class="street">
+        <div class="form-group">
           <label for="street">Улица</label>
           <input type="text">
         </div>
-        <div class="houseNumber">
+        <div class="form-group">
           <label for="houseNumber">Дом</label>
           <input type="text">
         </div>
       </div>
       <div class="identityDocument">
-        <label for="identityDocument">Документ, удостоверяющий личность:</label>
-        <div class="documentType">
+        <label for="identityDocument" class="form__block">Документ, удостоверяющий личность:</label>
+        <div class="form-group">
           <label for="documentType">Тип документа*</label>
           <select v-model="selectedDoc" id="documentType" @blur="$v.selectedDoc.$touch()">
             <option disabled value="">Выберите один из вариантов</option>
@@ -206,22 +209,21 @@
             <option>Свидетельство о рождении</option>
             <option>Вод. удостоверение</option>
           </select>
-          <span>Выбрано: {{ selectedDoc }}</span>
           <div class="error" v-if="$v.selectedDoc.$error">
             <template v-if="!$v.selectedDoc.required">
             Поле обязательно для заполнения
             </template>
           </div>
         </div>
-        <div class="serialNumber">
+        <div class="form-group">
           <label for="serialNumber">Серия</label>
           <input type="text">
         </div>
-        <div class="documentNumber">
+        <div class="form-group">
         <label for="documentNumber">Номер</label>
         <input type="text">
         </div>
-        <div class="issued">
+        <div class="form-group">
           <label for="issued">Кем выдан</label>
           <input 
             type="text" 
@@ -236,7 +238,7 @@
             </template>
           </div>
 
-        <div class="issuedDate">
+        <div class="form-group">
           <label for="issuedDate">Дата выдачи документа*</label>
           <input 
             id="issuedDate" 
@@ -250,7 +252,6 @@
             pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}"
             @blur="$v.issuedDate.$touch()"
           >
-          <!-- Errors for birthday Date -->
           <div class="error" v-if="$v.issuedDate.$error">
             <template v-if="!$v.issuedDate.required">
             Поле обязательно для заполнения
@@ -259,7 +260,7 @@
         </div>
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit">Отправить</button>
 
     </form>
     
@@ -267,6 +268,7 @@
 </template>
 
 <script>
+
 
 import { alpha, required, numeric } from 'vuelidate/lib/validators'
 
@@ -279,89 +281,88 @@ export default {
       patronymic: '',
       birthdayDate:'',
       phone:'',
-      clientGroup:'',
-      attendingDoctor: '',
+      selectedGroup: '',
+      selectedDoctor:'',
       ZIPcode: '',
       city: '',
-      issued: '',
-      selectedDoctor:'',
       selectedDoc: '',
-      selectedGroup: '',
-      issueDate: '',
+      issued: '',
       issuedDate: '',
-      submit: '',
+      zalupa: '',
     }
   },
   validations: {
-    issued: {
-      required
-    },
-    city: {
-      alpha: val => /^[а-яё]*$/i.test(val),
-      required
-    },
-    firstName: {
-      alpha: val => /^[а-яё]*$/i.test(val),
-      required
-    },
-    lastName: {
-      alpha: val => /^[а-яё]*$/i.test(val),
-      required
-    },
-    patronymic: {
-      alpha: val => /^[а-яё]*$/i.test(val),
-      required
-    },
-    birthdayDate: {
-      required
-    },
-    phone: {
-      required
-    },
-    issueDate: {
-      required
-    },
-    clientGroup: {
-      required
-    },
-    attendingDoctor: {
-      required
-    },
-    ZIPcode: {
-      numeric
-    },
-    issuedDate: {
-      required
-    },
-    selectedDoc: {
-      required
-    },
-    selectedGroup: {
-      required
-    }
+    firstName: { alpha: val => /^[а-яё]*$/i.test(val), required },
+    lastName: { alpha: val => /^[а-яё]*$/i.test(val), required },
+    patronymic: { alpha: val => /^[а-яё]*$/i.test(val) },
+    birthdayDate: { required },
+    phone: { required },
+    selectedGroup: { required },
+    ZIPcode: { numeric },
+    city: { alpha: val => /^[а-яё]*$/i.test(val), required },
+    selectedDoc: { required },
+    issued: { required},
+    issuedDate: { required },
   },
   methods: {
-    onSubmit() {
-      if (this.$v.$invalid) {
-        this.$v.$touch()
+    onSubmit(e)  {
+      this.$v.$touch()
+      if (this.$v.$anyError) {
         return
       }
-      else {
-        alert('jkasdh')
-      }
-    }
+      alert('Клиент создан')
+    } 
    }
 }
 </script>
 
 <style lang="sass">
+  *
+    background: #f2f2f2
   #app 
-    font-family: Avenir, Helvetica, Arial, sans-serif
-    -webkit-font-smoothing: antialiased
-    -moz-osx-font-smoothing: grayscale
-    text-align: center
+    font-family: Lucida Sans Unicode, sans-serif
     color: #2c3e50
-    margin-top: 60px
   .error
     color: red
+    font-size: 0.7rem
+  .form
+    width: 60%
+    margin: auto
+    justify-content: space-around
+    flex-wrap: wrap
+    &__block
+      font-size: 1.4rem
+      font-weight: bolder
+    &-group
+      .phone
+        display: flex
+        .seven 
+          margin: auto 5px auto auto
+      label 
+        display: flex
+        font-size: 1.1rem
+        margin: 10px
+      input, select
+        background: white
+        width: 100%
+        padding: 12px 20px
+        margin: 8px 0
+        display: inline-block
+        border: 1px solid #ccc
+        border-radius: 4px
+        box-sizing: border-box
+    button
+      width: 100%
+      background-color: #4CAF50
+      color: white
+      padding: 14px 20px
+      margin: 8px 0
+      border: none
+      border-radius: 4px
+      cursor: pointer
+    .sms
+      display: flex
+      input
+        margin: auto auto auto 20px
+
 </style>
